@@ -67,7 +67,7 @@ View('lab', {
       </div>
       <p class="mute">${T('The lab labels each miss by replaying the same sequence on a fully associative cache of the same size: if that one would have hit, your miss is a conflict.', 'El laboratorio etiqueta cada fallo repitiendo la secuencia en una caché totalmente asociativa del mismo tamaño: si esa habría acertado, tu fallo es de conflicto.')}</p>
     </div>
-    <h2>${T('Checkpoint', 'Punto de control')}</h2><div id="q"></div>${nextLink('theory')}`;
+    <h2>${T('Checkpoint', 'Punto de control')}</h2><div id="q"></div>${nextLink('trade')}`;
 
     const sets = () => 8 / LAB.ways, ixb = () => lg(sets());
     const drawSeq = () => {
