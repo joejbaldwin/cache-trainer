@@ -165,7 +165,7 @@ View('exercises', {
     const k = E.indexOf(ex), nx = E[k + 1];
     m.innerHTML = `<a class="back" href="#/exercises">← ${T('All exercises', 'Todos los ejercicios')}</a>` + head(ex.src, ex.t) +
       `<div class="card st">${ex.st}</div>
-      ${ex.tr ? `<p><a class="btn ghost" href="#/loops" id="otr">🔬 ${T('Open this program in the tracer', 'Abrir este programa en el trazador')}</a></p>` : ''}
+      ${ex.tr ? `<p><a class="btn ghost" href="#/loops/tracer" id="otr">🔬 ${T('Open this program in the tracer', 'Abrir este programa en el trazador')}</a></p>` : ''}
       <div id="q"></div>
       ${nx ? `<a class="next" href="#/exercises/${nx.id}"><span>${T('Next exercise', 'Siguiente ejercicio')}</span><b>${nx.t} →</b></a>` : nextLink('drill')}`;
     if (ex.tr) $('#otr', m).onclick = () => { TR.pid = ex.tr; trReset(); };

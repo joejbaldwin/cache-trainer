@@ -53,7 +53,8 @@ function loopsQs() {
 View('loops', {
   icon: '⑥', title: () => T('Loop problems', 'Problemas de bucles'), mins: 40, done: () => ['loops'],
   desc: () => T('The exam format: code + cache → miss rates. A recipe, and a tracer that runs the real exam programs access by access.', 'El formato del examen: código + caché → tasas de fallos. Una receta y un trazador que ejecuta los programas reales de examen acceso a acceso.'),
-  render(m) {
+  render(m, arg) {
+    if (arg === 'tracer') setTimeout(() => { const t = $('.tracer', m); if (t) (t.previousElementSibling || t).scrollIntoView({ block: 'start' }); }, 0);
     const R = [
       [T('Convert everything to powers of two', 'Pasa todo a potencias de dos'), T('Cache sizes, line, element size (double = 2³), array length. Array bytes = elements × size.', 'Tamaños de caché, línea, tamaño de elemento (double = 2³), longitud del array. Bytes del array = elementos × tamaño.')],
       [T('Sets, index, offset for each level', 'Conjuntos, índice y desplazamiento de cada nivel'), T('sets = size / (ways × line). “Always calculate tag / index / offset” — even if the tag stays as “address bits − …”.', 'conjuntos = tamaño / (vías × línea). «Siempre calcula etiqueta / índice / desplazamiento» — aunque la etiqueta quede como «bits de dirección − …».')],

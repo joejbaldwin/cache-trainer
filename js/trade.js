@@ -2,12 +2,12 @@
 /* Trade-offs, live: move one of the three design knobs and see what gets better and what gets worse.
    Every effect is the wording of L4_2 slides 4–6; the bit counts are computed. */
 
-const TR = { w: 1, s: 3, b: 1, last: null };            // slider positions
+const TO = { w: 1, s: 3, b: 1, last: null };            // slider positions
 const TR_W = [1, 2, 4, 8, 0], TR_S = [1, 2, 4, 8, 16, 32, 64], TR_B = [16, 32, 64, 128];   // ways (0 = fully), KiB, bytes
 
 function trCfg() {
-  const size = TR_S[TR.s] * 1024, block = TR_B[TR.b], lines = size / block, ways = TR_W[TR.w] || lines, sets = lines / ways;
-  return { size, block, lines, ways, sets, full: !TR_W[TR.w], off: lg(block), idx: lg(sets), tag: 32 - lg(block) - lg(sets) };
+  const size = TR_S[TO.s] * 1024, block = TR_B[TO.b], lines = size / block, ways = TR_W[TO.w] || lines, sets = lines / ways;
+  return { size, block, lines, ways, sets, full: !TR_W[TO.w], off: lg(block), idx: lg(sets), tag: 32 - lg(block) - lg(sets) };
 }
 /* [goes up?, good?, label, why] for an INCREASE of the knob; a decrease flips direction and colour */
 function trEffects(k) {
@@ -37,9 +37,9 @@ View('trade', {
       T('Three knobs. Each one buys fewer misses and charges you somewhere else. Move one and say the cost before you read it.', 'Tres mandos. Cada uno compra menos fallos y te cobra en otro sitio. Mueve uno y di el coste antes de leerlo.'))}
     <div class="card trd">
       <div class="trk">
-        <label class="on-w"><span>${T('Associativity', 'Asociatividad')} <i>${T('(asociatividad)', '')}</i></span><input type="range" min="0" max="${TR_W.length - 1}" value="${TR.w}" data-k="w"><b id="tv-w"></b><small><em>${T('direct', 'directa')}</em><em>${T('fully associative', 'totalmente asociativa')}</em></small></label>
-        <label class="on-s"><span>${T('Cache size', 'Tamaño de caché')}</span><input type="range" min="0" max="${TR_S.length - 1}" value="${TR.s}" data-k="s"><b id="tv-s"></b><small><em>1 KiB</em><em>64 KiB</em></small></label>
-        <label class="on-b"><span>${T('Block size', 'Tamaño de bloque')}</span><input type="range" min="0" max="${TR_B.length - 1}" value="${TR.b}" data-k="b"><b id="tv-b"></b><small><em>16 B</em><em>128 B</em></small></label>
+        <label class="on-w"><span>${T('Associativity', 'Asociatividad')} <i>${T('(asociatividad)', '')}</i></span><input type="range" min="0" max="${TR_W.length - 1}" value="${TO.w}" data-k="w"><b id="tv-w"></b><small><em>${T('direct', 'directa')}</em><em>${T('fully associative', 'totalmente asociativa')}</em></small></label>
+        <label class="on-s"><span>${T('Cache size', 'Tamaño de caché')}</span><input type="range" min="0" max="${TR_S.length - 1}" value="${TO.s}" data-k="s"><b id="tv-s"></b><small><em>1 KiB</em><em>64 KiB</em></small></label>
+        <label class="on-b"><span>${T('Block size', 'Tamaño de bloque')}</span><input type="range" min="0" max="${TR_B.length - 1}" value="${TO.b}" data-k="b"><b id="tv-b"></b><small><em>16 B</em><em>128 B</em></small></label>
       </div>
       <div class="trs"><div class="trc"><div id="trviz"></div><div id="trbar"></div><div class="cfg" id="trnum"></div></div>
         <div class="tre" id="tre"></div></div>
@@ -62,7 +62,7 @@ View('trade', {
     }
     function draw(k, dir) {
       const c = trCfg();
-      $('#tv-w', m).textContent = wl(TR.w); $('#tv-s', m).textContent = TR_S[TR.s] + ' KiB'; $('#tv-b', m).textContent = TR_B[TR.b] + ' B';
+      $('#tv-w', m).textContent = wl(TO.w); $('#tv-s', m).textContent = TR_S[TO.s] + ' KiB'; $('#tv-b', m).textContent = TR_B[TO.b] + ' B';
       $('#trviz', m).innerHTML = viz(c, k);
       bar.update(c.tag, c.idx, c.off);
       const d = (a, b) => (a === b ? `<b>${b}</b>` : `<b class="chg">${a} → ${b}</b>`);
@@ -80,9 +80,9 @@ View('trade', {
       prev = c;
     }
     $$('.trk input', m).forEach(inp => (inp.oninput = () => {
-      const k = inp.dataset.k, v = +inp.value, dir = v - TR[k];
+      const k = inp.dataset.k, v = +inp.value, dir = v - TO[k];
       if (!dir) return;
-      TR[k] = v; draw(k, dir);
+      TO[k] = v; draw(k, dir);
     }));
     draw();
     Quiz($('#q', m), 'trade', [
